@@ -1,0 +1,102 @@
+body {
+    background-color: #f5f5f5;
+    margin: 0;
+    font-family: "sans-serif";
+}
+
+.attendance-container {
+    max-width: 1000px;
+    margin: 40px auto;
+    padding: 0 20px;
+}
+
+/* ページタイトル */
+.page-title {
+    font-size: 20px;
+    font-weight: bold;
+    border-left: 4px solid #000;
+    padding-left: 15px;
+    margin-bottom: 30px;
+}
+
+/* 日付ナビゲーション */
+.date-nav {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #fff;
+    padding: 15px;
+    border-radius: 4px;
+    margin-bottom: 20px;
+    gap: 40px;
+    font-weight: bold;
+}
+
+.date-nav__btn {
+    text-decoration: none;
+    color: #888;
+    font-size: 14px;
+}
+
+.date-nav__current {
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.calendar-input {
+    border: none;
+    outline: none;
+    background: transparent;
+    font-size: 18px;
+    font-weight: bold;
+    font-family: inherit;
+    color: #333;
+    cursor: pointer;
+    text-align: center;
+}
+
+/* カレンダーアイコンのクリックしやすさを調整 */
+.calendar-input::-webkit-calendar-picker-indicator {
+    cursor: pointer;
+    margin-right: 5px;
+}
+
+/* 勤怠テーブル */
+.attendance-table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #fff;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.attendance-table th,
+.attendance-table td {
+    padding: 15px;
+    text-align: left;
+    border-bottom: 1px solid #eee;
+}
+
+.attendance-table th {
+    color: #aaa;
+    font-size: 13px;
+    font-weight: normal;
+}
+
+.attendance-table td {
+    font-size: 14px;
+    color: #333;
+}
+
+/* 詳細リンク */
+.detail-link {
+    color: #333;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.detail-link:hover {
+    text-decoration: underline;
+}

@@ -1,0 +1,101 @@
+body {
+    background-color: #f5f5f5;
+    /* 背景は薄いグレー */
+}
+
+.attendance-container {
+    max-width: 900px;
+    margin: 40px auto;
+    font-family: sans-serif;
+}
+
+.attendance-header {
+    margin-bottom: 30px;
+}
+
+.attendance-header h1 {
+    font-size: 24px;
+    font-weight: bold;
+    border-left: 4px solid #000;
+    padding-left: 15px;
+    margin-bottom: 20px;
+}
+
+.month-selector {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #fff;
+    padding: 10px 20px;
+    border-radius: 4px;
+    margin-bottom: 20px;
+}
+
+.month-nav-link {
+    color: #666;
+    /* 画像に合わせ、矢印リンクを薄いグレーに設定 */
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 14px;
+    padding: 5px 15px;
+    border-radius: 4px;
+}
+
+.month-nav-link:hover {
+    background-color: #f9f9f9;
+}
+
+.current-month {
+    font-size: 18px;
+        font-weight: bold;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        /* アイコンと文字の間隔 */
+}
+
+.calendar-input {
+    border: none;
+    background: transparent;
+    font-size: 1.5rem;
+    font-weight: bold;
+    cursor: pointer;
+    font-family: inherit;
+    outline: none;
+}
+
+.attendance-table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #fff;
+    text-align: center;
+    border-radius: 4px;
+}
+
+.attendance-table th,
+.attendance-table td {
+    padding: 15px;
+    text-align: center;
+    border-bottom: 1px solid #eee;
+    /* 下線のみでスッキリさせる */
+}
+
+.attendance-table th {
+    font-weight: bold;
+    color: #666;
+    font-size: 14px;
+}
+
+.attendance-table td {
+    font-size: 15px;
+}
+
+.detail-link {
+    color: #333;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.detail-link:hover {
+    text-decoration: underline;
+}

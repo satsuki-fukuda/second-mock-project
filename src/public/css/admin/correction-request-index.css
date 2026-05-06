@@ -1,0 +1,81 @@
+/* 背景とコンテナ */
+body {
+    background-color: #f5f5f5;
+    /* 薄いグレーの背景 */
+}
+
+.app-container {
+    max-width: 1000px;
+    margin: 50px auto;
+    padding: 0 20px;
+}
+
+.page-title {
+    font-size: 20px;
+    font-weight: bold;
+    border-left: 5px solid #000;
+    padding-left: 15px;
+    margin-bottom: 30px;
+}
+
+/* タブデザイン */
+.tab-nav {
+    display: flex;
+    gap: 40px;
+    border-bottom: 1px solid #ccc;
+    margin-bottom: 20px;
+    padding-left: 10px;
+}
+
+.tab-item {
+    text-decoration: none;
+    color: #333;
+    padding-bottom: 10px;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.tab-item.is-active {
+    color: #000;
+    /* 必要ならここに下線などを追加 */
+}
+
+/* テーブルデザイン */
+.table-wrapper {
+    background-color: #fff;
+    border-radius: 4px;
+}
+
+.app-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.app-table th {
+    color: #999;
+    font-weight: normal;
+    font-size: 13px;
+    text-align: left;
+    padding: 20px;
+    border-bottom: 1px solid #eee;
+}
+
+.app-table td {
+    padding: 20px;
+    border-bottom: 1px solid #eee;
+    color: #333;
+    font-size: 14px;
+}
+
+.reason-cell {
+    max-width: 200px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.detail-link {
+    color: #000;
+    font-weight: bold;
+    text-decoration: none;
+}

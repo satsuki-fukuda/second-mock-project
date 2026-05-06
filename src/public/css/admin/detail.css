@@ -1,0 +1,117 @@
+/* 背景とコンテナ */
+body {
+    background-color: #f5f5f5;
+    /* 薄いグレーの背景 */
+}
+
+/* 全体レイアウト */
+.detail-container {
+    max-width: 800px;
+    margin: 45px auto;
+    padding: 0 20px;
+}
+
+.page-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.title-line {
+    width: 4px;
+    height: 24px;
+    background-color: #000;
+}
+
+.date-text {
+    word-spacing: 5.0em;
+    /* 単語（年・月・日）の間のスペースを一気に広げる */
+    letter-spacing: 0.1em;
+    /* 文字同士の間隔も少し広げると画像に近いゆったり感が出ます */
+}
+
+/* テーブルスタイル */
+.detail-table {
+    width: 100%;
+    background-color: #fff;
+    border-collapse: separate;
+    border-spacing: 0;
+    padding: 20px 40px;
+    border-radius: 4px;
+}
+
+.detail-table th,
+.detail-table td {
+    padding: 20px 10px;
+    border-bottom: 1px solid #eee;
+}
+
+/* 最後の行の線は消す */
+.detail-table tr:last-child th,
+.detail-table tr:last-child td {
+    border-bottom: none;
+}
+
+.detail-table th {
+    width: 30%;
+    text-align: left;
+    color: #666;
+    font-weight: normal;
+}
+
+/* 入力要素 */
+.time-inputs {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+input[type="time"],
+textarea {
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 1rem;
+}
+
+textarea {
+    width: 100%;
+    resize: vertical;
+}
+
+/* 修正ボタン */
+.button-area {
+    text-align: right;
+    margin-top: 20px;
+}
+
+.btn-update {
+    background-color: #000;
+    color: #fff;
+    padding: 10px 40px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.btn-update:hover {
+    opacity: 0.8;
+}
+
+/* 警告メッセージ */
+.status-message {
+    margin-top: 20px;
+    text-align: right;
+    /* 右寄せ */
+    color: #ff4d4d;
+    /* 鮮やかな赤 */
+    font-size: 0.9rem;
+}
+
+.error-msg {
+    color: #ff0000;
+    font-size: 14px;
+    margin-top: 5px;
+}

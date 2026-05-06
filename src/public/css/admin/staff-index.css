@@ -1,0 +1,73 @@
+/* 全体の背景 */
+body {
+    background-color: #f5f5f5;
+    margin: 0;
+    font-family: "sans-serif";
+}
+
+.staff-container {
+    max-width: 900px;
+    margin: 60px auto;
+    padding: 0 20px;
+}
+
+/* 「スタッフ一覧」のタイトル部分 */
+.page-title {
+    font-size: 24px;
+    font-weight: bold;
+    border-left: 5px solid #000;
+    padding-left: 15px;
+    margin-bottom: 40px;
+    line-height: 1.2;
+}
+
+/* テーブルを包む白いボックス */
+.table-wrapper {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    overflow: hidden;
+}
+
+/* テーブル本体 */
+.staff-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+/* ヘッダー行 */
+.staff-table th {
+    background-color: #fff;
+    color: #888;
+    font-size: 14px;
+    font-weight: normal;
+    padding: 20px;
+    text-align: center;
+    border-bottom: 2px solid #f5f5f5;
+}
+
+/* データ行 */
+.staff-table td {
+    padding: 20px;
+    text-align: center;
+    font-size: 15px;
+    color: #333;
+    border-bottom: 1px solid #f5f5f5;
+}
+
+/* 最後の行のボーダーを消す */
+.staff-table tr:last-child td {
+    border-bottom: none;
+}
+
+/* 詳細リンク（月次勤怠） */
+.detail-link {
+    color: #333;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.detail-link:hover {
+    text-decoration: underline;
+}

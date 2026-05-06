@@ -1,0 +1,97 @@
+/* 全体設定 */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN", "Hiragino Sans", sans-serif;
+    background-color: #f5f5f5;
+    /* 背景は薄いグレー */
+}
+
+/* メインコンテンツ */
+.main {
+    height: calc(100vh - 80px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.card {
+    text-align: center;
+    width: 100%;
+    max-width: 400px;
+}
+
+/* ステータスバッジ（勤務外など） */
+.status-badge {
+    display: inline-block;
+    background-color: #e0e0e0;
+    padding: 5px 15px;
+    border-radius: 20px;
+    font-size: 18px;
+    color: #666;
+    margin-bottom: 20px;
+}
+
+/* 日付と時刻 */
+.date {
+    font-size: 28px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.time {
+    font-size: 80px;
+    font-weight: bold;
+    margin-bottom: 40px;
+}
+
+/* ボタン */
+/* ボタンを横並びにするコンテナ */
+.button-container {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    /* ボタン同士の間隔 */
+}
+
+/* 共通のボタン基本スタイル */
+.btn {
+    padding: 12px 40px;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    min-width: 140px;
+    transition: 0.3s;
+    border: none;
+}
+
+/* 退勤ボタン（黒） */
+.btn-black {
+    background-color: #000;
+    color: #fff;
+}
+/* 休憩入ボタン（白） */
+.btn-white {
+    background-color: #fff;
+    color: #000;
+    /* 画像のように少し影を付けると白背景でも見やすくなります */
+    border: none;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.btn:hover {
+    opacity: 0.7;
+}
+.btn-black:hover {
+    opacity: 0.8;
+}
+
+/* 退勤後のメッセージ */
+.finish-message {
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+    margin-top: 20px;
+}
+

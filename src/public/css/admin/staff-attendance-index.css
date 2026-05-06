@@ -1,0 +1,106 @@
+.staff-attendance-container {
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 0 20px;
+}
+
+.page-title {
+    font-size: 20px;
+    border-left: 5px solid #000;
+    padding-left: 15px;
+    margin-bottom: 30px;
+}
+
+/* 月ナビ */
+.month-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #fff;
+    padding: 15px 20px;
+    border-radius: 8px 8px 0 0;
+    border-bottom: 1px solid #eee;
+}
+
+.calendar-input {
+    border: none;
+    outline: none;
+    background: transparent;
+    font-size: 18px;
+    font-weight: bold;
+    font-family: inherit;
+    color: #333;
+    cursor: pointer;
+    text-align: center;
+}
+
+.current-month {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.nav-btn {
+    color: #ccc;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+/* テーブル */
+.table-wrapper {
+    background: #fff;
+    border-radius: 0 0 8px 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.attendance-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.attendance-table th {
+    color: #aaa;
+    font-weight: normal;
+    font-size: 12px;
+    padding: 15px;
+    border-bottom: 1px solid #eee;
+}
+
+.attendance-table td {
+    padding: 12px 15px;
+    border-bottom: 1px solid #eee;
+    text-align: center;
+    font-size: 14px;
+}
+
+.col-date {
+    color: #666;
+}
+
+/* 土日の背景を少し変える場合 */
+.is-weekend {
+    background-color: #fafafa;
+}
+
+.detail-link {
+    color: #000;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+/* CSVボタン */
+.footer-actions {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 20px;
+}
+
+.csv-btn {
+    background: #000;
+    color: #fff;
+    border: none;
+    padding: 10px 30px;
+    border-radius: 4px;
+    font-weight: bold;
+    cursor: pointer;
+}
