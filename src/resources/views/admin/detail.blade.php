@@ -13,10 +13,10 @@
 
     {{-- 更新完了メッセージ --}}
     @if(session('message'))
-        <p class="success-msg" style="color: green; margin-bottom: 20px;">{{ session('message') }}</p>
+        <p class="success-msg">{{ session('message') }}</p>
     @endif
 
-    <form action="{{ route('admin.attendance.update', $attendance->id) }}" method="POST">
+    <form action="{{ $attendance->id ? url('/admin/attendance/update/' . $attendance->id) : url('/admin/attendance/update') }}" method="POST">
         @csrf
         @method('PATCH')
         
@@ -32,10 +32,11 @@
             <tr>
                 <th>出勤・退勤</th>
                 <td class="time-inputs">
-                    <input type="time" name="start_time" value="{{ old('start_time', \Carbon\Carbon::parse($attendance->clock_in)->format('H:i')) }}">
+                    {{-- 💡 修正ポイント1: name と old と @error を start_time から clock_in に変更 --}}
+                    <input type="time" name="clock_in" value="{{ old('clock_in', \Carbon\Carbon::parse($attendance->clock_in)->format('H:i')) }}">
                     <span> ～ </span>
                     <input type="time" name="end_time" value="{{ old('end_time', $attendance->clock_out ? \Carbon\Carbon::parse($attendance->clock_out)->format('H:i') : '') }}">
-                    @error('start_time') <p class="error-msg">{{ $message }}</p> @enderror
+                    @error('clock_in') <p class="error-msg">{{ $message }}</p> @enderror
                     @error('end_time') <p class="error-msg">{{ $message }}</p> @enderror
                 </td>
             </tr>
@@ -52,6 +53,9 @@
                     <span> ～ </span>
                     <input type="time" name="breaks[{{ $break->id }}][end]" 
                            value="{{ old("breaks.{$break->id}.end", \Carbon\Carbon::parse($break->break_end)->format('H:i')) }}">
+                    {{-- 💡 修正ポイント2: 既存の休憩エラーメッセージ表示を追加 --}}
+                    @error("breaks.{$break->id}.start") <p class="error-msg">{{ $message }}</p> @enderror
+                    @error("breaks.{$break->id}.end") <p class="error-msg">{{ $message }}</p> @enderror
                 </td>
             </tr>
             @endforeach
@@ -63,6 +67,9 @@
                     <input type="time" name="new_break_start" value="{{ old('new_break_start') }}">
                     <span> ～ </span>
                     <input type="time" name="new_break_end" value="{{ old('new_break_end') }}">
+                    {{-- 💡 修正ポイント3: 新規の休憩エラーメッセージ表示を追加 --}}
+                    @error('new_break_start') <p class="error-msg">{{ $message }}</p> @enderror
+                    @error('new_break_end') <p class="error-msg">{{ $message }}</p> @enderror
                 </td>
             </tr>
 

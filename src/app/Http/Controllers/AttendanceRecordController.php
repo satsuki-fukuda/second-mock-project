@@ -188,14 +188,25 @@ public function workEnd()
             'date' => $date,
             'user_id' => auth()->id()
         ]);
-        $attendance->user = auth()->user();
+        $attendance->setRelation('user', auth()->user());
+        $attendance->setRelation('attendanceBreaks', collect());
     }
 
     // 2. 💡 修正申請テーブルから「承認待ち」のデータを1件取得
-    $pendingRequest = \App\Models\CorrectionRequest::with('correctionBreaks')
-        ->where('attendance_record_id', $id)
+        $pendingRequest = null;
+        if ($id) {
+            $pendingRequest = \App\Models\CorrectionRequest::with('correctionBreaks')
+                ->where('attendance_record_id', $id)
+                ->where('correction_status', '承認待ち')
+                ->first();
+        } else {
+            // 未打刻の日の場合、日付とユーザーIDから未承認の申請があるかを探す
+            $pendingRequest = \App\Models\CorrectionRequest::with('correctionBreaks')
+                ->where('user_id', auth()->id())
+                ->where('requested_date', $date)
         ->where('correction_status', '承認待ち')
         ->first();
+        }
 
     // 3. 💡 ここで変数 $isPending を確実に定義する
     // $pendingRequest が存在すれば true, なければ false
@@ -205,44 +216,62 @@ public function workEnd()
     return view('user.detail', compact('attendance', 'isPending', 'pendingRequest'));
     }
 
+  /**
+     * 管理者用：勤怠詳細新規登録（未打刻）画面の表示
+     */
     public function adminCreate(Request $request)
-{
-    // クエリパラメータから情報を取得
-    $user = User::findOrFail($request->user_id);
-    $date = $request->date;
+    {
+        // クエリパラメータから情報を取得
+        $user = User::findOrFail($request->user_id);
+        $date = $request->date;
 
-    // データベースに保存されていない「空の」勤怠レコードを作成（メモリ上のみ）
-    $attendance = new AttendanceRecord([
-        'user_id' => $user->id,
-        'date' => $date,
-    ]);
-    
-    // ビューで $attendance->user->name を使うため、リレーションをセット
-    $attendance->setRelation('user', $user);
+        // データベースに保存されていない「空の」勤怠レコードを作成（メモリ上のみ）
+        $attendance = new AttendanceRecord([
+            'user_id' => $user->id,
+            'date'    => $date,
+        ]);
+        
+        // ビューで $attendance->user->name やループ処理が落ちないよう初期化
+        $attendance->setRelation('user', $user);
+        $attendance->setRelation('attendanceBreaks', collect()); // 空のコレクション
 
-    // 既存の編集用ビューをそのまま使う
-    return view('admin.detail', compact('attendance'));
-}
+        // 既存の編集用ビューをそのまま使う
+        return view('admin.detail', compact('attendance'));
+    }
 
     // 修正申請の保存処理
-    public function update(CorrectionRequestRequest $request, $id)
+    public function update(CorrectionRequestRequest $request, $id = null)
 
     {
-        $attendance = AttendanceRecord::findOrFail($id);
+        // 💡 1. IDがある場合は既存レコードを取得、ない場合はその場で新規作成する
+        if ($id) {
+            $attendance = AttendanceRecord::findOrFail($id);
+        } else {
+            // 未打刻の日の場合、まず「空の勤務レコード」を仮作成してIDを発行する
+            $attendance = AttendanceRecord::create([
+                'user_id' => auth()->id(),
+                'date' => $request->input('date'), // Bladeのhiddenから取得
+                'clock_in' => '00:00:00', // 仮の初期値（null不可の場合）
+                'clock_out' => null,
+                'total_time' => 0,
+                'total_break_time' => 0,
+            ]);
+        }
 
-    DB::transaction(function () use ($request, $attendance) {
-        // 1. 修正申請の作成
-        $corrRequest = CorrectionRequest::create([
-            'user_id'                 => auth()->id(),
-            'attendance_record_id'    => $attendance->id,
-            'requested_date'          => $attendance->date,
-            'requested_clock_in'      => $request->clock_in,
-            'requested_clock_out'     => $request->end_time,
-            'correction_status'       => '承認待ち',
-            'correction_requested_at' => now(),
-            'comment'                 => $request->note,
-        ]);
+        $requestedDate = $attendance->date;
 
+        \DB::transaction(function () use ($request, $attendance, $requestedDate) {
+            // 1. 修正申請の作成
+            $corrRequest = CorrectionRequest::create([
+                'user_id'                 => auth()->id(),
+                'attendance_record_id'    => $attendance->id, 
+                'requested_date'          => $requestedDate, // 確実に変数が渡る
+                'requested_clock_in'      => $request->clock_in,
+                'requested_clock_out'     => $request->end_time,
+                'correction_status'       => '承認待ち',
+                'correction_requested_at' => now(),
+                'comment'                 => $request->note,
+            ]);
         // 2. 既存の休憩（修正分）を申請用テーブルに保存
         if ($request->has('breaks')) {
             foreach ($request->breaks as $breakData) {
@@ -273,51 +302,75 @@ public function workEnd()
      */
     public function adminEdit($id)
     {
-        $attendance = AttendanceRecord::with('user')->findOrFail($id);
-
-        // Bladeの変数名に合わせるための詰め替え（アクセサを使わない場合）
-        $attendance->start_time = $attendance->clock_in;
-        $attendance->end_time = $attendance->clock_out;
-        $attendance->note = $attendance->comment;
+        $attendance = AttendanceRecord::with(['user', 'attendanceBreaks'])->findOrFail($id);
 
         return view('admin.detail', compact('attendance'));
     }
 
+
     /**
      * 管理者用：勤怠データの更新処理
      */
-    public function adminUpdate(Request $request, $id)
+ public function adminUpdate(CorrectionRequestRequest $request, $id = null)
     {
-        $attendance = AttendanceRecord::with('attendanceBreaks')->findOrFail($id);
- DB::transaction(function () use ($request, $attendance) {
-        // 1. 本番データを更新
-        $attendance->update([
-            'clock_in' => $request->start_time,
-            'clock_out' => $request->end_time,
-            'comment' => $request->note,
-        ]);
+        // 💡 1. フォームクラスのバリデーション済みデータを取得
+        $validated = $request->validated();
 
-        // 2. 休憩データの更新
-        $break = $attendance->attendanceBreaks()->first();
-        if ($break) {
-            $break->update([
-                'break_start' => $request->break1_start,
-                'break_end' => $request->break1_end,
-            ]);
-        } elseif ($request->filled('break1_start')) {
-            // 休憩データがなかった場合に新規作成
-            $attendance->attendanceBreaks()->create([
-                'break_start' => $request->break1_start,
-                'break_end'   => $request->break1_end,
+        if ($id) {
+            // 既存データの編集
+            $attendance = AttendanceRecord::with('attendanceBreaks')->findOrFail($id);
+        } else {
+            // 💡 2. 未打刻の日（新規登録）の場合、勤務レコードをその場で作成
+            $attendance = AttendanceRecord::create([
+                'user_id'          => $request->input('user_id'), // もしくは適切な紐付けID
+                'date'             => $request->input('date'),
+                'clock_in'         => '00:00:00',
+                'clock_out'        => null,
+                'total_time'       => 0,
+                'total_break_time' => 0,
             ]);
         }
-        // 💡 修正のキモ：この勤怠レコードに対する「承認待ち」申請があれば承認済みにする
-        CorrectionRequest::where('attendance_record_id', $attendance->id)
-            ->where('correction_status', '承認待ち')
-            ->update(['correction_status' => '承認済み']);
-    });
 
-    return redirect()->back()->with('message', '勤怠データを修正しました');
-}
+        \DB::transaction(function () use ($request, $attendance) {
+            // 3. 本番の勤務データを更新（Bladeの変更に伴い clock_in を使用）
+            $attendance->update([
+                'clock_in'  => $request->clock_in,
+                'clock_out' => $request->end_time,
+                'comment'   => $request->note,
+            ]);
 
+            // 4. 既存の休憩データのループ更新（Bladeの name="breaks[id][start]" と連動）
+            if ($request->has('breaks')) {
+                foreach ($request->breaks as $breakId => $breakData) {
+                    $break = $attendance->attendanceBreaks->find($breakId);
+                    if ($break) {
+                        $break->update([
+                            'break_start' => $breakData['start'],
+                            'break_end'   => $breakData['end'],
+                        ]);
+                    }
+                }
+            }
+
+            // 5. 新規休憩データの追加（Bladeの name="new_break_start" と連動）
+            if ($request->filled(['new_break_start', 'new_break_end'])) {
+                $attendance->attendanceBreaks()->create([
+                    'break_start' => $request->new_break_start,
+                    'break_end'   => $request->new_break_end,
+                ]);
+            }
+
+            // 6. この勤怠レコードに対する「承認待ち」申請があれば自動で「承認済み」にする
+            \App\Models\CorrectionRequest::where('attendance_record_id', $attendance->id)
+                ->where('correction_status', '承認待ち')
+                ->update(['correction_status' => '承認済み']);
+        });
+
+        // 新規作成から来た場合は、戻り先が破綻しないよう一覧等にリダイレクトさせるのが安全
+        if (!$id) {
+            return redirect()->route('attendance.list')->with('message', '勤怠データを新規登録しました');
+        }
+
+        return redirect()->back()->with('message', '勤怠データを修正しました');
+    }
 }

@@ -53,11 +53,9 @@
         <td>{{ $record && $record->total_time ? \Carbon\Carbon::parse($record->total_time)->format('H:i') : '' }}</td>
 
         <td>
-            @if($record)
     <a href="{{ $record ? route('admin.attendance.edit', $record->id) : route('admin.attendance.create', ['user_id' => $user->id, 'date' => $formattedDate]) }}" class="detail-link">
         詳細
     </a>
-            @endif
         </td>
     </tr>
     @endforeach

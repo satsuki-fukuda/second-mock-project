@@ -38,7 +38,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
         // 詳細・修正申請
         Route::get('/detail/{id?}', [AttendanceRecordController::class, 'show'])->name('attendance.detail');
-        Route::post('/update/{id}', [AttendanceRecordController::class, 'update']);
+        Route::post('/update/{id?}', [AttendanceRecordController::class, 'update'])->name('attendance.update');
         Route::get('/correction-requests', [CorrectionRequestController::class, 'index'])->name('attendance.requests');
         Route::get('/attendance/create', [AttendanceRecordController::class, 'adminCreate'])->name('admin.attendance.create');
     });
@@ -76,7 +76,7 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
 
     // 勤怠修正（管理者直接）
     Route::get('/attendance/{id}', [AttendanceRecordController::class, 'adminEdit'])->name('admin.attendance.edit');
-    Route::patch('/attendance/update/{id}', [AttendanceRecordController::class, 'adminUpdate'])->name('admin.attendance.update');
+   Route::match(['patch', 'post'], '/attendance/update/{id?}', [AttendanceRecordController::class, 'adminUpdate'])->name('admin.attendance.update');
 
     // 申請（承認）管理
     Route::get('/applications', [CorrectionRequestController::class, 'index'])->name('admin.application.index');

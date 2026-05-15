@@ -11,8 +11,13 @@
         <h1>勤怠詳細</h1>
     </div>
 
-    <form action="/attendance/update/{{ $attendance->id }}" method="POST">
+    {{-- 💡 修正ポイント1: IDの有無でアクションURLを動的に切り替える --}}
+    <form action="{{ $attendance->id ? url('/attendance/update/' . $attendance->id) : url('/attendance/update') }}" method="POST">
         @csrf
+        
+        {{-- 💡 修正ポイント2: 未打刻データ作成用に、対象の日付を必ず隠しデータで送信する --}}
+        <input type="hidden" name="date" value="{{ \Carbon\Carbon::parse($attendance->date)->format('Y-m-d') }}">
+
         <table class="detail-table">
             <tr>
                 <th>名前</th>
@@ -20,7 +25,8 @@
             </tr>
             <tr>
                 <th>日付</th>
-                <td class="date-text">{{ $attendance->date->isoFormat('YYYY年  M月D日') }}</td>
+                {{-- 💡 修正ポイント3: 文字列でもCarbonでも安全にフォーマットできるようにparseを挟む --}}
+                <td class="date-text">{{ \Carbon\Carbon::parse($attendance->date)->isoFormat('YYYY年  M月D日') }}</td>
             </tr>
             <tr>
                 <th>出勤・退勤</th>
@@ -30,7 +36,8 @@
                         <span> ～ </span>
                         {{ \Carbon\Carbon::parse($pendingRequest->requested_clock_out)->format('H:i') }}
                     @else
-                        <input type="time" name="clock_in" value="{{ old('clock_in', \Carbon\Carbon::parse($attendance->clock_in)->format('H:i')) }}">
+                        {{-- 💡 修正ポイント4: clock_in / clock_out が null でも parse で落ちないように三項演算子で対応 --}}
+                        <input type="time" name="clock_in" value="{{ old('clock_in', $attendance->clock_in ? \Carbon\Carbon::parse($attendance->clock_in)->format('H:i') : '') }}">
                         <span> ～ </span>
                         <input type="time" name="end_time" value="{{ old('end_time', $attendance->clock_out ? \Carbon\Carbon::parse($attendance->clock_out)->format('H:i') : '') }}">
                         @error('end_time') <p class="error-msg">{{ $message }}</p> @enderror
@@ -38,9 +45,7 @@
                 </td>
             </tr>
 
-            {{-- 💡 休憩部分の条件分岐を整理 --}}
             @if($isPending)
-                {{-- 承認待ち：申請データ(pendingRequest)側の休憩を表示 --}}
                 @foreach($pendingRequest->correctionBreaks as $index => $break)
                 <tr>
                     <th>休憩{{ $index + 1 }}</th>
@@ -52,7 +57,6 @@
                 </tr>
                 @endforeach
             @else
-                {{-- 通常時：元の勤怠データ(attendance)側の休憩を表示 --}}
                 @foreach($attendance->attendanceBreaks as $break)
                 <tr>
                     <th>休憩{{ $loop->iteration }}</th>
@@ -71,7 +75,7 @@
 
                 {{-- 新規休憩入力欄 --}}
                 <tr>
-                    <th>休憩{{ $attendance->attendanceBreaks->count() + 1 }}</th>
+                    <th>休憩{{ $attendance->attendanceBreaks ? $attendance->attendanceBreaks->count() + 1 : 1 }}</th>
                     <td class="time-inputs">
                         <input type="time" name="new_break_start" value="{{ old('new_break_start') }}">
                         <span> ～ </span>
@@ -86,7 +90,6 @@
                 <th>備考</th>
                 <td>
                     @if($isPending)
-                        {{-- 💡 申請中の備考を表示 --}}
                         {{ $pendingRequest->comment }}
                     @else
                         <textarea name="note" rows="3">{{ old('note', $attendance->comment) }}</textarea>
