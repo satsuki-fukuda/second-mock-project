@@ -16,13 +16,9 @@ class AdminMiddleware
      */
     public function handle(Request $request, Closure $next)
     {
-            // ログインしていて、かつ is_admin が true (1) かを判定
-    if (auth()->check() && auth()->user()->is_admin) {
-        return $next($request);
-    }
-
-    // 管理者でなければ一般ユーザー用のホームへ飛ばす
-    return redirect('/attendance')->with('error', '管理者権限がありません。');
-
+        if (auth()->check() && auth()->user()->is_admin) {
+            return $next($request);
+        }
+        return redirect('/attendance')->with('error', '管理者権限がありません。');
     }
 }

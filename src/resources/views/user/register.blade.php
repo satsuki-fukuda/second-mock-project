@@ -18,7 +18,9 @@
       <div class="form__group-content">
         <div class="form__input--text">
           <input type="text" name="name" value="{{ old('name') }}" />
-          @error('name') <p class="error-message">{{ $message }}</p> @enderror
+          @error('name')
+          <p class="error-message">{{ $message }}</p>
+          @enderror
         </div>
       </div>
     </div>
@@ -30,7 +32,9 @@
       <div class="form__group-content">
         <div class="form__input--text">
           <input type="email" name="email" value="{{ old('email') }}" />
-          @error('email') <p class="error-message">{{ $message }}</p> @enderror
+          @error('email')
+          <p class="error-message">{{ $message }}</p>
+          @enderror
         </div>
       </div>
     </div>
@@ -42,7 +46,9 @@
       <div class="form__group-content">
         <div class="form__input--text">
           <input type="password" name="password" />
-          @error('password') <p class="error-message">{{ $message }}</p> @enderror
+          @error('password')
+          <p class="error-message">{{ $message }}</p>
+          @enderror
         </div>
       </div>
     </div>
@@ -54,7 +60,9 @@
       <div class="form__group-content">
         <div class="form__input--text">
           <input type="password" name="password_confirmation" />
-          @error('password_confirmation') <p class="error-message">{{ $message }}</p> @enderror
+          @error('password_confirmation')
+          <p class="error-message">{{ $message }}</p>
+          @enderror
         </div>
       </div>
     </div>

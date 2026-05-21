@@ -14,9 +14,7 @@ class CorrectionBreak extends Model
         'new_break_start',
         'new_break_end'
     ];
-        /**
-     * 親の申請データへのリレーション
-     */
+
     public function correctionRequest()
     {
         return $this->belongsTo(CorrectionRequest::class);

@@ -1,9 +1,7 @@
-/* 背景とコンテナ */
 body {
     background-color: #f5f5f5;
-    /* 薄いグレーの背景 */
 }
-/* 全体レイアウト */
+
 .detail-container {
     max-width: 800px;
     margin: 45px auto;
@@ -25,12 +23,9 @@ body {
 
 .date-text {
     word-spacing: 5.0em;
-    /* 単語（年・月・日）の間のスペースを一気に広げる */
     letter-spacing: 0.1em;
-    /* 文字同士の間隔も少し広げると画像に近いゆったり感が出ます */
 }
 
-/* テーブルスタイル */
 .detail-table {
     width: 100%;
     background-color: #fff;
@@ -46,7 +41,6 @@ body {
     border-bottom: 1px solid #eee;
 }
 
-/* 最後の行の線は消す */
 .detail-table tr:last-child th,
 .detail-table tr:last-child td {
     border-bottom: none;
@@ -59,7 +53,6 @@ body {
     font-weight: normal;
 }
 
-/* 入力要素 */
 .time-inputs {
     display: flex;
     align-items: center;
@@ -79,7 +72,6 @@ textarea {
     resize: vertical;
 }
 
-/* 修正ボタン */
 .button-area {
     text-align: right;
     margin-top: 20px;
@@ -99,13 +91,10 @@ textarea {
     opacity: 0.8;
 }
 
-/* 警告メッセージ */
 .status-message {
     margin-top: 20px;
     text-align: right;
-    /* 右寄せ */
     color: #ff4d4d;
-    /* 鮮やかな赤 */
     font-size: 0.9rem;
 }
 

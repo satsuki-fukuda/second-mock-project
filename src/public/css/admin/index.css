@@ -10,7 +10,6 @@ body {
     padding: 0 20px;
 }
 
-/* ページタイトル */
 .page-title {
     font-size: 20px;
     font-weight: bold;
@@ -19,7 +18,6 @@ body {
     margin-bottom: 30px;
 }
 
-/* 日付ナビゲーション */
 .date-nav {
     display: flex;
     justify-content: center;
@@ -57,13 +55,11 @@ body {
     text-align: center;
 }
 
-/* カレンダーアイコンのクリックしやすさを調整 */
 .calendar-input::-webkit-calendar-picker-indicator {
     cursor: pointer;
     margin-right: 5px;
 }
 
-/* 勤怠テーブル */
 .attendance-table {
     width: 100%;
     border-collapse: collapse;
@@ -90,7 +86,6 @@ body {
     color: #333;
 }
 
-/* 詳細リンク */
 .detail-link {
     color: #333;
     text-decoration: none;

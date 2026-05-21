@@ -24,9 +24,7 @@ use App\Http\Controllers\CorrectionRequestController;
 |--------------------------------------------------------------------------
 */
 Route::middleware(['auth', 'verified'])->group(function () {
-
     Route::get('/attendance/list', [AttendanceRecordController::class, 'list'])->name('attendance.list');
-    // 勤怠メイン
     Route::get('/attendance', [AttendanceRecordController::class, 'index'])->name('attendance.index');
 
     // 打刻操作
@@ -54,10 +52,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 Route::get('/admin/login', [UserController::class, 'showLoginForm'])
     ->middleware('guest')
     ->name('admin.login');
-
-// --- 修正箇所：prefix('admin') の外に記述 ---
 Route::middleware(['auth', 'admin'])->group(function () {
-    // URLを直接指定
     Route::get('/stamp_correction_request/list', [CorrectionRequestController::class, 'index'])
         ->name('admin.application.index');
 });
@@ -86,11 +81,9 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
 
 // その他
 Route::get('/mail', [UserController::class, 'user.verify-email']);
-
 Route::post('/logout', function () {
     Auth::logout();
     request()->session()->invalidate();
     request()->session()->regenerateToken();
-    
-    return redirect('/login'); // ここでログイン画面を指定
+    return redirect('/login');
 })->name('logout');

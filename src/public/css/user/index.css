@@ -1,6 +1,5 @@
 body {
     background-color: #f5f5f5;
-    /* 背景は薄いグレー */
 }
 
 .attendance-container {
@@ -33,7 +32,6 @@ body {
 
 .month-nav-link {
     color: #666;
-    /* 画像に合わせ、矢印リンクを薄いグレーに設定 */
     text-decoration: none;
     font-weight: bold;
     font-size: 14px;
@@ -51,7 +49,6 @@ body {
         display: flex;
         align-items: center;
         gap: 10px;
-        /* アイコンと文字の間隔 */
 }
 
 .calendar-input {
@@ -77,7 +74,6 @@ body {
     padding: 15px;
     text-align: center;
     border-bottom: 1px solid #eee;
-    /* 下線のみでスッキリさせる */
 }
 
 .attendance-table th {

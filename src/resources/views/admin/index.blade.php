@@ -31,40 +31,29 @@
         </thead>
         <tbody>
             @forelse($attendances as $attendance)
-    <tr>
-        {{-- 名前 --}}
-        <td>{{ $attendance->user->name }}</td>
-
-        {{-- 出勤時間 (H:i) --}}
-        <td>{{ \Carbon\Carbon::parse($attendance->clock_in)->format('H:i') }}</td>
-
-        {{-- 退勤時間 (H:i) --}}
-        <td>{{ $attendance->clock_out ? \Carbon\Carbon::parse($attendance->clock_out)->format('H:i') : '--:--' }}</td>
-
-{{-- 休憩合計 --}}
-<td>
-    @if($attendance->total_break_time)
-        {{ \Carbon\Carbon::parse($attendance->total_break_time)->format('H:i') }}
-    @else
-        0:00
-    @endif
-</td>
-
-{{-- 勤務合計 --}}
-<td>
-    @if($attendance->total_time)
-        {{ \Carbon\Carbon::parse($attendance->total_time)->format('H:i') }}
-    @else
-        0:00
-    @endif
-</td>
-
-        {{-- 詳細リンク --}}
-        <td>
-            <a href="{{ route('admin.attendance.edit', $attendance->id) }}" class="detail-link">詳細</a>
-        </td>
-    </tr>
-            @empty
+            <tr>
+                <td>{{ $attendance->user->name }}</td>
+                <td>{{ \Carbon\Carbon::parse($attendance->clock_in)->format('H:i') }}</td>
+                <td>{{ $attendance->clock_out ? \Carbon\Carbon::parse($attendance->clock_out)->format('H:i') : '--:--' }}</td>
+                <td>
+                    @if($attendance->total_break_time)
+                        {{ \Carbon\Carbon::parse($attendance->total_break_time)->format('H:i') }}
+                    @else
+                        0:00
+                    @endif
+                </td>
+                <td>
+                    @if($attendance->total_time)
+                        {{ \Carbon\Carbon::parse($attendance->total_time)->format('H:i') }}
+                    @else
+                        0:00
+                    @endif
+                </td>
+                <td>
+                    <a href="{{ route('admin.attendance.edit', $attendance->id) }}" class="detail-link">詳細</a>
+                </td>
+            </tr>
+                @empty
             <tr>
                 <td colspan="6" style="text-align: center;">この日の勤怠データはありません。</td>
             </tr>

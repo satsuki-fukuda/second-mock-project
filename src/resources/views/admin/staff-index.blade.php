@@ -6,8 +6,7 @@
 
 @section('content')
 <div class="staff-container">
-    <h2 class="page-title">スタッフ一覧</h2>
-
+    <h1 class="page-title">スタッフ一覧</h1>
     <div class="table-wrapper">
         <table class="staff-table">
             <thead>
@@ -23,7 +22,6 @@
                     <td>{{ $user->name }}</td>
                     <td>{{ $user->email }}</td>
                     <td>
-                        {{-- スタッフごとの月次勤怠詳細ページへのリンク --}}
                         <a href="{{ route('admin.attendance.staff', $user->id) }}" class="detail-link">詳細</a>
                     </td>
                 </tr>

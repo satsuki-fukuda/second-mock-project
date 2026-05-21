@@ -11,7 +11,6 @@
     margin-bottom: 30px;
 }
 
-/* 月ナビ */
 .month-nav {
     display: flex;
     justify-content: space-between;
@@ -46,7 +45,6 @@
     font-weight: bold;
 }
 
-/* テーブル */
 .table-wrapper {
     background: #fff;
     border-radius: 0 0 8px 8px;
@@ -77,7 +75,6 @@
     color: #666;
 }
 
-/* 土日の背景を少し変える場合 */
 .is-weekend {
     background-color: #fafafa;
 }
@@ -88,7 +85,6 @@
     text-decoration: none;
 }
 
-/* CSVボタン */
 .footer-actions {
     display: flex;
     justify-content: flex-end;

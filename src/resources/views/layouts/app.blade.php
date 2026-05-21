@@ -30,9 +30,9 @@
                 <li><a href="/stamp_correction_request/list" class="nav-link">申請一覧</a></li>
             @else
                 <!-- 一般ユーザー用ナビ -->
-            <li><a href="/attendance" class="nav-link">勤怠</a></li>
-            <li><a href="/attendance/list" class="nav-link">勤怠一覧</a></li>
-            <li><a href="/attendance/correction-requests" class="nav-link">申請</a></li>
+                <li><a href="/attendance" class="nav-link">勤怠</a></li>
+                <li><a href="/attendance/list" class="nav-link">勤怠一覧</a></li>
+                <li><a href="/attendance/correction-requests" class="nav-link">申請</a></li>
             @endif
                 <li>
                     <form action="/logout" method="POST" class="nav-form">
@@ -40,7 +40,7 @@
                     <button type="submit" class="nav-link-btn">ログアウト</button>
                     </form>
                 </li>
-                @endauth
+            @endauth
             </ul>
         </nav>
         @endunless

@@ -32,8 +32,6 @@
                 </td>
             </tr>
 
-            {{-- 休憩部分のループ表示 --}}
-            {{-- コントローラーでセットした個別変数ではなく、リレーションを直接回すと正確です --}}
             @foreach($application->correctionBreaks as $index => $break)
             <tr>
                 <th>休憩{{ $index + 1 }}</th>

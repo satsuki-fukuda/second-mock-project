@@ -8,15 +8,13 @@
 <div class="app-container">
     <h1 class="page-title">申請一覧</h1>
 
-    <!-- タブ切り替え -->
     <div class="tab-nav">
-        <a href="{{ route('admin.application.index', ['status' => 'pending']) }}" 
-           class="tab-item {{ $status == 'pending' ? 'is-active' : '' }}">承認待ち</a>
-        <a href="{{ route('admin.application.index', ['status' => 'approved']) }}" 
-           class="tab-item {{ $status == 'approved' ? 'is-active' : '' }}">承認済み</a>
+        <a href="{{ route('admin.application.index', ['status' => 'pending']) }}"
+            class="tab-item {{ $status == 'pending' ? 'is-active' : '' }}">承認待ち</a>
+        <a href="{{ route('admin.application.index', ['status' => 'approved']) }}"
+            class="tab-item {{ $status == 'approved' ? 'is-active' : '' }}">承認済み</a>
     </div>
 
-    <!-- 申請テーブル -->
     <div class="table-wrapper">
         <table class="app-table">
             <thead>

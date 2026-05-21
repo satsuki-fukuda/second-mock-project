@@ -23,16 +23,10 @@ class AttendanceRecord extends Model
     'date' => 'date',
     ];
 
-    /**
-     * この勤怠レコードに紐づく複数の休憩レコードを取得
-     */
     public function attendanceBreaks()
     {
         return $this->hasMany(AttendanceBreak::class);
     }
-        /**
-     * この勤怠レコードを所有するユーザーを取得
-     */
 
     public function user()
     {
