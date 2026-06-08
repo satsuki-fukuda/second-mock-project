@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Carbon\Carbon;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
@@ -43,4 +44,17 @@ class User extends Authenticatable implements MustVerifyEmail
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function attendanceRecords()
+    {
+        return $this->hasMany(AttendanceRecord::class, 'user_id');
+    }
+
+    public function getIsLeftWorkTodayAttribute()
+    {
+        $todayRecord = $this->attendanceRecords()
+            ->where('date', Carbon::today()->format('Y-m-d'))
+            ->first();
+        return $todayRecord && !is_null($todayRecord->clock_out);
+    }
 }

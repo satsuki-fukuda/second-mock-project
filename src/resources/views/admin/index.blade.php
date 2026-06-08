@@ -33,20 +33,20 @@
             @forelse($attendances as $attendance)
             <tr>
                 <td>{{ $attendance->user->name }}</td>
-                <td>{{ \Carbon\Carbon::parse($attendance->clock_in)->format('H:i') }}</td>
-                <td>{{ $attendance->clock_out ? \Carbon\Carbon::parse($attendance->clock_out)->format('H:i') : '--:--' }}</td>
+                <td>{{ $attendance->clock_in ? \Carbon\Carbon::parse($attendance->clock_in)->format('H:i') : '' }}</td>
+                <td>{{ $attendance->clock_out ? \Carbon\Carbon::parse($attendance->clock_out)->format('H:i') : '' }}</td>
                 <td>
-                    @if($attendance->total_break_time)
-                        {{ \Carbon\Carbon::parse($attendance->total_break_time)->format('H:i') }}
+                    @if($attendance->total_break_time > 0)
+                        {{ gmdate('H:i', $attendance->total_break_time) }}
                     @else
-                        0:00
+                        
                     @endif
                 </td>
                 <td>
-                    @if($attendance->total_time)
-                        {{ \Carbon\Carbon::parse($attendance->total_time)->format('H:i') }}
+                    @if($attendance->total_time > 0)
+                        {{ gmdate('H:i', $attendance->total_time) }}
                     @else
-                        0:00
+                        
                     @endif
                 </td>
                 <td>

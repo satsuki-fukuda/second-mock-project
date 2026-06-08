@@ -3,6 +3,8 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
+use App\Models\User;
+use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\DB;
 
 class UsersTableSeeder extends Seeder
@@ -37,9 +39,8 @@ class UsersTableSeeder extends Seeder
                 'status' => '勤務外'
             ]
             ];
-
-        foreach ($users as $user) {
-            DB::table('users')->insert($user);
+        foreach ($users as $userData) {
+            User::create($userData);
         }
     }
 }

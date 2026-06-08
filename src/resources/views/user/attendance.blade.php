@@ -9,7 +9,7 @@
     <div class="card">
         <p class="status-badge">{{ $status }}</p>
         <h1 class="date">{{ $displayDate }}</h1>
-        <div class="time">{{ $displayTime }}</div>
+        <div class="time"  id="realtime-time">{{ $displayTime }}</div>
             <div class="button-group">
             @if($status === '勤務外')
                 <form action="/attendance/work-start" method="POST">
@@ -38,4 +38,18 @@
         </div>
     </div>
 </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const timeDisplay = document.getElementById('realtime-time');
+
+    function updateTime() {
+        const now = new Date();
+        const hours = String(now.getHours()).padStart(2, '0');
+        const minutes = String(now.getMinutes()).padStart(2, '0');
+        timeDisplay.textContent = `${hours}:${minutes}`;
+    }
+    setInterval(updateTime, 1000);
+});
+</script>
 @endsection

@@ -55,7 +55,7 @@
             @if($application->status === 'approved')
                 <button type="button" class="btn-approve" disabled>承認済み</button>
             @else
-                <form action="{{ route('admin.application.approve', $application->id) }}" method="POST">
+                <form action="{{ route('admin.application.approve', ['attendance_correct_request_id' => $application->id]) }}" method="POST">
                     @csrf
                     @method('PATCH')
                     <button type="submit" class="btn-approve">承認</button>

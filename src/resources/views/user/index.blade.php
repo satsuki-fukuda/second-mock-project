@@ -2,6 +2,7 @@
 
 @section('css')
 <link rel="stylesheet" href="{{ asset('css/user/index.css') }}">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=calendar_month" />
 @endsection
 
 @section('content')
@@ -9,11 +10,17 @@
     <header class="attendance-header">
         <h1>勤怠一覧</h1>
         <div class="month-selector">
-        <a href="?month={{ \Carbon\Carbon::parse($month)->subMonth()->format('Y-m') }}" class="month-nav-link">← 前月</a>
-    <form action="" method="GET" style="display: inline-flex; align-items: center;">
-        <input type="month" name="month" value="{{ \Carbon\Carbon::parse($month)->format('Y-m') }}" onchange="this.form.submit()" class="calendar-input">
-    </form>
-        <a href="?month={{ \Carbon\Carbon::parse($month)->addMonth()->format('Y-m') }}" class="month-nav-link">翌月 →</a>
+            <a href="?month={{ \Carbon\Carbon::parse($month)->subMonth()->format('Y-m') }}" class="month-nav-link">← 前月</a>
+                <form action="" method="GET" class="month-form">
+                    <div class="calendar-picker-wrapper">
+                        <span class="material-symbols-outlined custom-calendar-icon">calendar_month</span>
+                        <input type="month" name="month" value="{{ \Carbon\Carbon::parse($month)->format('Y-m') }}" onchange="this.form.submit()" class="calendar-input-hidden">
+                    </div>
+                    <span class="calendar-text-display">
+                        {{ \Carbon\Carbon::parse($month)->format('Y/m') }}
+                    </span>
+                </form>
+            <a href="?month={{ \Carbon\Carbon::parse($month)->addMonth()->format('Y-m') }}" class="month-nav-link">翌月 →</a>
         </div>
     </header>
 

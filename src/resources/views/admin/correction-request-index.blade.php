@@ -9,9 +9,9 @@
     <h1 class="page-title">申請一覧</h1>
 
     <div class="tab-nav">
-        <a href="{{ route('admin.application.index', ['status' => 'pending']) }}"
+        <a href="{{ route('stamp_correction_request.list', ['status' => 'pending']) }}"
             class="tab-item {{ $status == 'pending' ? 'is-active' : '' }}">承認待ち</a>
-        <a href="{{ route('admin.application.index', ['status' => 'approved']) }}"
+        <a href="{{ route('stamp_correction_request.list', ['status' => 'approved']) }}"
             class="tab-item {{ $status == 'approved' ? 'is-active' : '' }}">承認済み</a>
     </div>
 
@@ -36,7 +36,7 @@
                     <td class="reason-cell">{{ $app->comment }}</td>
                     <td>{{ $app->created_at->format('Y/m/d') }}</td>
                     <td>
-                        <a href="{{ route('admin.application.show', $app->id) }}" class="detail-link">詳細</a>
+                        <a href="{{ route('admin.application.show', ['attendance_correct_request_id' => $app->id]) }}" class="detail-link">詳細</a>
                     </td>
                 </tr>
                 @endforeach

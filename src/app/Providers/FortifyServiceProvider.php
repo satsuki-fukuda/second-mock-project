@@ -30,54 +30,45 @@ class FortifyServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-                    // 👇 ここから追加：アクションの紐付け
         Fortify::createUsersUsing(CreateNewUser::class);
         Fortify::resetUserPasswordsUsing(ResetUserPassword::class);
         Fortify::updateUserProfileInformationUsing(UpdateUserProfileInformation::class);
         Fortify::updateUserPasswordsUsing(UpdateUserPassword::class);
-        // 👆 ここまで追加
-
         $this->app->bind(FortifyLoginRequest::class, MyLoginRequest::class);
-  Fortify::authenticateUsing(function (Request $request) {
-
-        // 1. ユーザーをメールアドレスで検索
-        $user = \App\Models\User::where('email', $request->email)->first();
-
-        // 2. パスワードの一致確認
-        if ($user && \Illuminate\Support\Facades\Hash::check($request->password, $user->password)) {
-            
-            // 3. 管理者か判定してリダイレクト先をセッションに予約する
-            // ここでは is_admin カラムを想定しています
-            if ($user->is_admin) {
-                session(['url.intended' => url('/admin/attendance/list')]);
-            } else {
-                session(['url.intended' => url('/attendance')]);
+        Fortify::authenticateUsing(function (Request $request) {
+            $user = \App\Models\User::where('email', $request->email)->first();
+            if ($user && \Illuminate\Support\Facades\Hash::check($request->password, $user->password)) {
+                if ($user->is_admin) {
+                    session(['url.intended' => url('/admin/attendance/list')]);
+                    } else {
+                        session(['url.intended' => url('/attendance')]);
+                    }
+                return $user;
             }
+            return null;
+        });
 
-            return $user;
-        }
-        return null;
-    });
+        \Illuminate\Support\Facades\Event::listen(
+            \Illuminate\Auth\Events\Login::class,
+            function ($event) {
+                $user = $event->user;
+                if (request()->is('register*')) {
+                    return;
+                }
+                if ($user instanceof \Illuminate\Contracts\Auth\MustVerifyEmail && ! $user->hasVerifiedEmail()) {
+                    $user->sendEmailVerificationNotification();
+                }
+            }
+        );
 
-    // --- ビューの設定 ---
-    Fortify::registerView(fn() => view('user.register'));
-    Fortify::loginView(fn() => view('user.login'));
-    Fortify::verifyEmailView(fn() => view('user.verify-email'));
-
-
+        Fortify::registerView(fn() => view('user.register'));
+        Fortify::loginView(fn() => view('user.login'));
+        Fortify::verifyEmailView(fn() => view('user.verify-email'));
         RateLimiter::for('login', function (Request $request) {
             $email = (string) $request->email;
             return Limit::perMinute(10)->by($email . $request->ip());
         });
 
-    // ログアウト後の遷移先を /login に指定
-    config(['fortify.home' => '/login']); 
-
-        Fortify::verifyEmailView(function () {
-        return view('user.verify-email'); // 保存したファイルパスに合わせて変更
-    });
-
-
+        config(['fortify.home' => '/login']);
     }
-
 }

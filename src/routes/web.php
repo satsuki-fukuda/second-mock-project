@@ -37,7 +37,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
         // 詳細・修正申請
         Route::get('/detail/{id?}', [AttendanceRecordController::class, 'show'])->name('attendance.detail');
         Route::post('/update/{id?}', [AttendanceRecordController::class, 'update'])->name('attendance.update');
-        Route::get('/correction-requests', [CorrectionRequestController::class, 'index'])->name('attendance.requests');
         Route::get('/attendance/create', [AttendanceRecordController::class, 'adminCreate'])->name('admin.attendance.create');
     });
 });
@@ -52,10 +51,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
 Route::get('/admin/login', [UserController::class, 'showLoginForm'])
     ->middleware('guest')
     ->name('admin.login');
-Route::middleware(['auth', 'admin'])->group(function () {
-    Route::get('/stamp_correction_request/list', [CorrectionRequestController::class, 'index'])
-        ->name('admin.application.index');
-});
 
 Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
     Route::get('/attendance/list', [UserController::class, 'index'])->name('admin.attendance.list');
@@ -71,12 +66,31 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
 
     // 勤怠修正（管理者直接）
     Route::get('/attendance/{id}', [AttendanceRecordController::class, 'adminEdit'])->name('admin.attendance.edit');
-   Route::match(['patch', 'post'], '/attendance/update/{id?}', [AttendanceRecordController::class, 'adminUpdate'])->name('admin.attendance.update');
+    Route::match(['patch', 'post'], '/attendance/update/{id?}', [AttendanceRecordController::class, 'adminUpdate'])->name('admin.attendance.update');
 
     // 申請（承認）管理
-    Route::get('/applications', [CorrectionRequestController::class, 'index'])->name('admin.application.index');
-    Route::get('/application/{id}', [CorrectionRequestController::class, 'show'])->name('admin.application.show');
-    Route::patch('/application/{id}/approve', [CorrectionRequestController::class, 'approve'])->name('admin.application.approve');
+    Route::get('/stamp_correction_request/approve/{attendance_correct_request_id}', [CorrectionRequestController::class, 'show'])->name('admin.application.show');
+    Route::patch('/stamp_correction_request/approve/{attendance_correct_request_id}', [CorrectionRequestController::class, 'approve'])->name('admin.application.approve');
+});
+
+/*
+
+|--------------------------------------------------------------------------
+| 共通・出し分けルート（同じパスをミドルウェア/権限で区分）
+|--------------------------------------------------------------------------
+*/
+// 申請（承認）管理
+Route::middleware(['auth'])->group(function () {
+    Route::get('/stamp_correction_request/list', function () {
+        $user = auth()->user();
+        if ($user && $user->is_admin) {
+            return app(CorrectionRequestController::class)->index(request());
+        }
+        if ($user && $user->hasVerifiedEmail()) {
+            return app(CorrectionRequestController::class)->index(request());
+        }
+        return redirect('/email/verify');
+    })->name('stamp_correction_request.list');
 });
 
 // その他

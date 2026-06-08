@@ -56,6 +56,15 @@ MAIL_FROM_ADDRESS=hello@example.com
 **PHPUnitテストについて**
 <br>phpコンテナにてvendor/bin/phpunit tests コマンドにて実行</br>
 
+**ログイン情報**
+一般ユーザー
+ID:user1@example.com/user2@example.com
+PASS:password
+
+管理者
+ID:admin@example.com
+PASS:password
+
 ## 使用技術(実行環境)
 - PHP8.3.0
 - Laravel8.83.27

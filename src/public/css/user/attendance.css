@@ -25,7 +25,7 @@ body {
     border-radius: 20px;
     font-size: 18px;
     color: #666;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
 }
 
 .date {
@@ -37,13 +37,13 @@ body {
 .time {
     font-size: 80px;
     font-weight: bold;
-    margin-bottom: 40px;
+    margin-bottom: 50px;
 }
 
 .button-container {
     display: flex;
     justify-content: center;
-    gap: 20px;
+    gap: 50px;
 }
 
 .btn {
@@ -82,4 +82,3 @@ body {
     color: #333;
     margin-top: 20px;
 }
-

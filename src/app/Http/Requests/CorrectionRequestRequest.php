@@ -50,7 +50,6 @@ class CorrectionRequestRequest extends FormRequest
             'new_break_end.required_with' => '休憩の終了時間を入力してください',
             'new_break_end.after'    => '休憩時間もしくは退勤時間が不適切な値です',
             'new_break_end.before'   => '休憩時間もしくは退勤時間が不適切な値です',
-
             'note.required' => '備考を記入してください',
         ];
     }

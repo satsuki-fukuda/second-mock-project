@@ -1,5 +1,9 @@
+body {
+    background-color: #f5f5f5;
+}
+
 .staff-attendance-container {
-    max-width: 800px;
+    max-width: 900px;
     margin: 40px auto;
     padding: 0 20px;
 }
@@ -17,20 +21,85 @@
     align-items: center;
     background: #fff;
     padding: 15px 20px;
-    border-radius: 8px 8px 0 0;
-    border-bottom: 1px solid #eee;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 }
 
+.month-form {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.calendar-picker-wrapper {
+    position: relative;
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.custom-calendar-icon {
+    font-size: 26px;
+    color: #333333;
+    font-variation-settings:
+        'FILL' 0,
+        'wght' 300,
+        'GRAD' 0,
+        'opsz' 24;
+}
+
+.calendar-input-hidden {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100% !important;
+    height: 100% !important;
+    opacity: 0 !important;
+    cursor: pointer;
+    border: none;
+    outline: none;
+    background: transparent;
+}
+
+.calendar-text-display {
+    font-size: 1.3rem;
+    font-weight: bold;
+    color: #000000;
+    user-select: none;
+}
+
+.nav-btn {
+    color: #999999;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 0.95rem;
+}
+
+.calendar-text {
+    font-size: 1.4rem;
+    font-weight: bold;
+    font-family: inherit;
+    color: #333;
+}
 .calendar-input {
     border: none;
     outline: none;
     background: transparent;
-    font-size: 18px;
+    font-size: 1.2rem;
     font-weight: bold;
     font-family: inherit;
     color: #333;
     cursor: pointer;
     text-align: center;
+}
+
+.calendar-input::-webkit-calendar-picker-indicator {
+    order: -1;
+    margin-right: 5px;
+    margin-left: 0;
 }
 
 .current-month {
@@ -40,26 +109,27 @@
 }
 
 .nav-btn {
-    color: #ccc;
+    color: #666;
     text-decoration: none;
-    font-weight: bold;
 }
 
 .table-wrapper {
     background: #fff;
-    border-radius: 0 0 8px 8px;
+    border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 }
 
 .attendance-table {
     width: 100%;
     border-collapse: collapse;
+    overflow: hidden;
+    border-radius: 8px;
 }
 
 .attendance-table th {
-    color: #aaa;
+    color: #666;
     font-weight: normal;
-    font-size: 12px;
+    font-size: 15px;
     padding: 15px;
     border-bottom: 1px solid #eee;
 }
@@ -68,7 +138,7 @@
     padding: 12px 15px;
     border-bottom: 1px solid #eee;
     text-align: center;
-    font-size: 14px;
+    font-size: 15px;
 }
 
 .col-date {

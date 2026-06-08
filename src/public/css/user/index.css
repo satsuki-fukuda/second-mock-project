@@ -9,7 +9,7 @@ body {
 }
 
 .attendance-header {
-    margin-bottom: 30px;
+    margin-bottom: 40px;
 }
 
 .attendance-header h1 {
@@ -17,7 +17,7 @@ body {
     font-weight: bold;
     border-left: 4px solid #000;
     padding-left: 15px;
-    margin-bottom: 20px;
+    margin-bottom: 30px;
 }
 
 .month-selector {
@@ -45,20 +45,61 @@ body {
 
 .current-month {
     font-size: 18px;
-        font-weight: bold;
-        display: flex;
-        align-items: center;
-        gap: 10px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 10px;
 }
 
-.calendar-input {
-    border: none;
-    background: transparent;
-    font-size: 1.5rem;
-    font-weight: bold;
+.month-form {
+    display: inline-flex;
+    align-items: center;
+gap: 10px;
+}
+
+.calendar-picker-wrapper {
+    position: relative;
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.custom-calendar-icon {
+    font-size: 26px;
+    color: #333333;
+    font-variation-settings:
+        'FILL' 0,
+        'wght' 300,
+        'GRAD' 0,
+        'opsz' 24;
+}
+
+.calendar-input-hidden {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100% !important;
+    height: 100% !important;
+    opacity: 0 !important;
     cursor: pointer;
-    font-family: inherit;
+    border: none;
     outline: none;
+    background: transparent;
+}
+
+.calendar-text-display {
+    font-size: 1.3rem;
+    font-weight: bold;
+    color: #000000;
+    user-select: none;
+}
+
+.calendar-input::-webkit-calendar-picker-indicator {
+    order: -1;
+    margin-right: 5px;
+    margin-left: 0;
 }
 
 .attendance-table {

@@ -22,7 +22,7 @@
         <!-- ナビゲーション -->
         <nav class="header-nav">
             <ul class="nav-list">
-                        @auth
+            @auth
             @if(auth()->user()->is_admin)
                 <!-- 管理者用ナビ -->
                 <li><a href="/admin/attendance/list" class="nav-link">勤怠一覧</a></li>
@@ -30,9 +30,14 @@
                 <li><a href="/stamp_correction_request/list" class="nav-link">申請一覧</a></li>
             @else
                 <!-- 一般ユーザー用ナビ -->
-                <li><a href="/attendance" class="nav-link">勤怠</a></li>
-                <li><a href="/attendance/list" class="nav-link">勤怠一覧</a></li>
-                <li><a href="/attendance/correction-requests" class="nav-link">申請</a></li>
+                @if(auth()->user()->is_left_work_today )
+                    <li><a href="/attendance/list" class="nav-link">今月の出勤一覧</a></li>
+                    <li><a href="/stamp_correction_request/list" class="nav-link">申請一覧</a></li>
+                @else
+                    <li><a href="/attendance" class="nav-link">勤怠</a></li>
+                    <li><a href="/attendance/list" class="nav-link">勤怠一覧</a></li>
+                    <li><a href="/stamp_correction_request/list" class="nav-link">申請</a></li>
+                @endif
             @endif
                 <li>
                     <form action="/logout" method="POST" class="nav-form">

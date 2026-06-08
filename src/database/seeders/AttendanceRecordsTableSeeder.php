@@ -11,7 +11,7 @@ class AttendanceRecordsTableSeeder extends Seeder
 {
     public function run()
     {
-        $userIds = [1, 2, 3];
+        $userIds = [2, 3];
         foreach ($userIds as $userId) {
             $start = Carbon::now()->subYear();
             $end = Carbon::now()->subDay();

@@ -23,9 +23,27 @@ class UserController extends Controller
     public function index(Request $request)
     {
         $date = $request->query('date', Carbon::today()->format('Y-m-d'));
-        $attendances = AttendanceRecord::with('user')
-            ->whereDate('date', $date)
+        $users = User::where('is_admin', false)
             ->get();
+        $attendances = $users->map(function ($user) use ($date) {
+            $record = AttendanceRecord::firstOrCreate([
+                'user_id' => $user->id,
+                'date'    => $date,
+            ], [
+                'clock_in'         => '00:00:00',
+                'clock_out'        => null,
+                'total_break_time' => 0,
+                'total_time'       => 0,
+            ]);
+            return (object)[
+                'id'               => $record->id,
+                'user'             => $user,
+                'clock_in'         => $record->clock_in === '00:00:00' ? null : $record->clock_in,
+                'clock_out'        => $record->clock_out,
+                'total_break_time' => $record->total_break_time,
+                'total_time'       => $record->total_time,
+            ];
+        });
         return view('admin.index', compact('attendances', 'date'));
     }
 
@@ -51,7 +69,7 @@ class UserController extends Controller
             });
         $dates = [];
         for ($date = $targetMonth->copy(); $date->lte($endOfMonth); $date->addDay()) {
-        $dates[] = $date->copy();
+            $dates[] = $date->copy();
         }
         return view('admin.staff-attendance-index', compact('user', 'targetMonth', 'dates', 'attendances'));
     }
@@ -68,20 +86,20 @@ class UserController extends Controller
             ->orderBy('date', 'asc')
             ->get();
         $response = new StreamedResponse(function () use ($user, $targetMonth, $attendances) {
-        $handle = fopen('php://output', 'w');
-        fwrite($handle, "\xEF\xBB\xBF");
-        fputcsv($handle, ['日付', '出勤', '退勤', '休憩1開始', '休憩1終了', '合計勤務時間', '備考']);
-        foreach ($attendances as $record) {
-            fputcsv($handle, [
-                $record->date,
-                $record->clock_in,
-                $record->clock_out,
-                $record->total_break_time,
-                $record->total_time,
-                $record->comment,
-            ]);
-        }
-        fclose($handle);
+            $handle = fopen('php://output', 'w');
+            fwrite($handle, "\xEF\xBB\xBF");
+            fputcsv($handle, ['日付', '出勤', '退勤', '休憩1開始', '休憩1終了', '合計勤務時間', '備考']);
+            foreach ($attendances as $record) {
+                fputcsv($handle, [
+                    $record->date,
+                    $record->clock_in,
+                    $record->clock_out,
+                    $record->total_break_time,
+                    $record->total_time,
+                    $record->comment,
+                ]);
+            }
+            fclose($handle);
         }, 200, [
             'Content-Type' => 'text/csv',
             'Content-Disposition' => "attachment; filename={$user->name}_{$targetMonth->format('Ym')}_attendance.csv",
