@@ -42,8 +42,8 @@
             @if($attendance)
                 <td>{{ $attendance->clock_in ? \Carbon\Carbon::parse($attendance->clock_in)->format('H:i') : '' }}</td>
                 <td>{{ $attendance->clock_out ? \Carbon\Carbon::parse($attendance->clock_out)->format('H:i') : '' }}</td>
-                <td>{{ $attendance->total_break_time ? gmdate('H:i', $attendance->total_break_time) : '0:00' }}</td>
-                <td>{{ $attendance->total_time ? gmdate('H:i', $attendance->total_time) : '0:00' }}</td>
+                <td>{{ $attendance->total_break_time ? sprintf('%d:%02d', floor($attendance->total_break_time / 3600), ($attendance->total_break_time / 60) % 60) : '0:00' }}</td>
+                <td>{{ $attendance->total_time ? sprintf('%d:%02d', floor($attendance->total_time / 3600), ($attendance->total_time / 60) % 60) : '0:00' }}</td>
                 <td><a href="{{ route('attendance.detail', ['id' => $attendance->id]) }}" class="detail-link">詳細</a></td>
             @else
                 <td></td>

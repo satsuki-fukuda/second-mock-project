@@ -57,18 +57,17 @@
                 <th>休憩{{ $loop->iteration }}</th>
                 <td class="time-inputs">
                     <input type="hidden" name="breaks[{{ $break->id }}][id]" value="{{ $break->id }}">
-                    <input type="time" name="breaks[{{ $break->id }}][start]"
-                        value="{{ old("breaks.{$break->id}.start", \Carbon\Carbon::parse($break->break_start)->format('H:i')) }}">
+                    <input type="time" name="breaks[{{ $break->id }}][start]" value="{{ old('breaks.' . $break->id . '.start', \Carbon\Carbon::parse($break->break_start)->format('H:i')) }}">
                     <span> ～ </span>
-                    <input type="time" name="breaks[{{ $break->id }}][end]"
-                        value="{{ old("breaks.{$break->id}.end", \Carbon\Carbon::parse($break->break_end)->format('H:i')) }}">
-                    @error("breaks.{$break->id}.start")
+                    <input type="time" name="breaks[{{ $break->id }}][end]" value="{{ old('breaks.' . $break->id . '.end', \Carbon\Carbon::parse($break->break_end)->format('H:i')) }}">
+                    @error('breaks.' . $break->id . '.start')
                     <p class="error-msg">{{ $message }}</p>
                     @enderror
-                    @error("breaks.{$break->id}.end")
+                    @error('breaks.' . $break->id . '.end')
                     <p class="error-msg">{{ $message }}</p>
                     @enderror
                 </td>
+
             </tr>
             @endforeach
             <tr>

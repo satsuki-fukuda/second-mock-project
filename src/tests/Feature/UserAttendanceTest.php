@@ -331,7 +331,7 @@ class UserAttendanceTest extends TestCase
 
         $expectedDate = $now->isoFormat('MM/DD(ddd)');
         $listResponse->assertSee($expectedDate);
-        $listResponse->assertSee('00:15');
+        $listResponse->assertSee('0:15');
         \Carbon\Carbon::setTestNow();
     }
 

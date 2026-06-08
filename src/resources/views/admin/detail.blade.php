@@ -44,10 +44,10 @@
                 <td class="time-inputs">
                     <input type="hidden" name="breaks[{{ $break->id }}][id]" value="{{ $break->id }}">
                     <input type="time" name="breaks[{{ $break->id }}][start]"
-                        value="{{ old("breaks.{$break->id}.start", \Carbon\Carbon::parse($break->break_start)->format('H:i')) }}" {{ $isPending ? 'disabled' : '' }}>
+                        value="{{ old('breaks.{$break->id}.start', \Carbon\Carbon::parse($break->break_start)->format('H:i')) }}" {{ $isPending ? 'disabled' : '' }}>
                     <span> ～ </span>
                     <input type="time" name="breaks[{{ $break->id }}][end]"
-                        value="{{ old("breaks.{$break->id}.end", \Carbon\Carbon::parse($break->break_end)->format('H:i')) }}" {{ $isPending ? 'disabled' : '' }}>
+                        value="{{ old('breaks.{$break->id}.end', \Carbon\Carbon::parse($break->break_end)->format('H:i')) }}" {{ $isPending ? 'disabled' : '' }}>
                     @error("breaks.{$break->id}.start") <p class="error-msg">{{ $message }}</p> @enderror
                     @error("breaks.{$break->id}.end") <p class="error-msg">{{ $message }}</p> @enderror
                 </td>

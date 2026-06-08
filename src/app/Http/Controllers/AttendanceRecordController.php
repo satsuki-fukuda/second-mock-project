@@ -8,13 +8,13 @@ use App\Http\Requests\CorrectionRequestRequest;
 use App\Models\AttendanceRecord;
 use App\Models\AttendanceBreak;
 use App\Models\CorrectionRequest;
-use App\Models\CorrectionBreak;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 
 class AttendanceRecordController extends Controller
 {
+ //勤怠一覧表示
     public function list(Request $request)
     {
         $user = Auth::user();

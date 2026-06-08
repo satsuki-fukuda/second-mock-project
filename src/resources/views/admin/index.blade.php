@@ -38,15 +38,11 @@
                 <td>
                     @if($attendance->total_break_time > 0)
                         {{ gmdate('H:i', $attendance->total_break_time) }}
-                    @else
-                        
                     @endif
                 </td>
                 <td>
                     @if($attendance->total_time > 0)
                         {{ gmdate('H:i', $attendance->total_time) }}
-                    @else
-                        
                     @endif
                 </td>
                 <td>

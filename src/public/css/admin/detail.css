@@ -57,7 +57,7 @@ body {
 .time-inputs {
     display: flex;
     align-items: center;
-    gap: 20px;
+    gap: 40px;
 }
 
 input[type="time"],
@@ -66,6 +66,11 @@ textarea {
     border: 1px solid #ddd;
     border-radius: 4px;
     font-size: 1rem;
+}
+
+input[type="time"]::-webkit-calendar-picker-indicator {
+    display: none;
+    -webkit-appearance: none;
 }
 
 textarea {

@@ -3,8 +3,6 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
-use App\Http\Requests\CorrectionRequestRequest;
 use App\Models\CorrectionRequest;
 use App\Models\CorrectionBreak;
 use App\Models\AttendanceRecord;
@@ -15,6 +13,19 @@ use Carbon\Carbon;
 
 class CorrectionRequestController extends Controller
 {
+ //申請一覧表示
+    public function list(Request $request)
+    {
+        $user = Auth::user();
+        if ($user && $user->is_admin) {
+            return $this->index($request);
+        }
+        if ($user && $user->hasVerifiedEmail()) {
+            return $this->index($request);
+        }
+        return redirect('/email/verify');
+    }
+
     public function index(Request $request)
     {
         $user = Auth::user();

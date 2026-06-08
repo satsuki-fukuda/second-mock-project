@@ -47,8 +47,8 @@
                     <td class="col-date">{{ $date->format('m/d') }}({{ $date->isoFormat('ddd') }})</td>
                     <td>{{ $record && $record->clock_in && $record->clock_in !== '00:00:00' ? \Carbon\Carbon::parse($record->clock_in)->format('H:i') : '' }}</td>
                     <td>{{ $record && $record->clock_out ? \Carbon\Carbon::parse($record->clock_out)->format('H:i') : '' }}</td>
-                    <td>{{ $record && $record->total_break_time > 0 ? gmdate('H:i', $record->total_break_time) : '' }}</td>
-                    <td>{{ $record && $record->total_time > 0 ? gmdate('H:i', $record->total_time) : '' }}</td>
+                    <td>{{ $record && $record->total_break_time > 0 ? sprintf('%d:%02d', floor($record->total_break_time / 3600), ($record->total_break_time / 60) % 60) : '' }}</td>
+                    <td>{{ $record && $record->total_time > 0 ? sprintf('%d:%02d', floor($record->total_time / 3600), ($record->total_time / 60) % 60) : '' }}</td>
                     <td>
                         @if($record)
                             <a href="{{ route('admin.attendance.edit', $record->id) }}" class="detail-link">詳細</a>

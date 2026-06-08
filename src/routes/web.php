@@ -76,22 +76,14 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
 /*
 
 |--------------------------------------------------------------------------
-| 共通・出し分けルート（同じパスをミドルウェア/権限で区分）
+| 共通・出し分けルート
 |--------------------------------------------------------------------------
 */
 // 申請（承認）管理
 Route::middleware(['auth'])->group(function () {
-    Route::get('/stamp_correction_request/list', function () {
-        $user = auth()->user();
-        if ($user && $user->is_admin) {
-            return app(CorrectionRequestController::class)->index(request());
-        }
-        if ($user && $user->hasVerifiedEmail()) {
-            return app(CorrectionRequestController::class)->index(request());
-        }
-        return redirect('/email/verify');
-    })->name('stamp_correction_request.list');
+    Route::get('/stamp_correction_request/list', [CorrectionRequestController::class, 'list'])->name('stamp_correction_request.list');
 });
+
 
 // その他
 Route::get('/mail', [UserController::class, 'user.verify-email']);
