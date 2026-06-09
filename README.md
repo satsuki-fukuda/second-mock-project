@@ -70,16 +70,8 @@ PASS:password
 - Laravel8.83.27
 - MySQL8.0.26
 
-## テーブル設計
-<img width="759" height="264" alt="スクリーンショット 2026-06-04 13 37 39" src="https://github.com/user-attachments/assets/f5cfe7cd-0e73-4408-9014-230cb796e2c9" />
-<img width="758" height="254" alt="スクリーンショット 2026-06-04 13 38 16" src="https://github.com/user-attachments/assets/11ba400b-b7fb-49ad-876f-af86f947a75a" />
-<img width="801" height="278" alt="スクリーンショット 2026-06-04 13 38 47" src="https://github.com/user-attachments/assets/b37650bb-05b4-485b-83bf-3332c904e954" />
-<img width="834" height="176" alt="スクリーンショット 2026-06-09 10 38 06" src="https://github.com/user-attachments/assets/5ae009f5-9305-4285-adae-a0ad3f30d42c" />
-<img width="809" height="181" alt="スクリーンショット 2026-06-04 13 39 33" src="https://github.com/user-attachments/assets/c4d7fe32-5ae4-4fe2-9b32-cc837ea1c7c0" />
-
 ## ER図
 <img width="381" height="416" alt="スクリーンショット 2026-05-24 15 38 25" src="https://github.com/user-attachments/assets/3fff421d-e35b-4e53-b05c-9e78a93d336c" />
-![Uploading スクリーンショット 2026-06-04 13.37.39.png…]()
 
 ## URL
 - 開発環境：http://localhost/
